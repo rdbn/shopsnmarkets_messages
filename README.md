@@ -1,0 +1,1 @@
+Shops and Markets Messages

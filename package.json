@@ -1,0 +1,23 @@
+{
+  "name": "shopsnmarkets_messages",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/h5bp/html5-boilerplate.svg)](https://travis-ci.org/h5bp/html5-boilerplate) [![devDependency Status](https://david-dm.org/h5bp/html5-boilerplate/dev-status.svg)](https://david-dm.org/h5bp/html5-boilerplate#info=devDependencies)",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test_app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/rdbn/shopsnmarkets_messages.git"
+  },
+  "author": "rdbn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdbn/shopsnmarkets_messages/issues"
+  },
+  "homepage": "https://github.com/rdbn/shopsnmarkets_messages#readme"
+}
