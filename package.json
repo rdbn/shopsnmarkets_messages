@@ -1,14 +1,15 @@
 {
   "name": "shopsnmarkets_messages",
   "version": "1.0.0",
-  "description": "[![Build Status](https://travis-ci.org/h5bp/html5-boilerplate.svg)](https://travis-ci.org/h5bp/html5-boilerplate) [![devDependency Status](https://david-dm.org/h5bp/html5-boilerplate/dev-status.svg)](https://david-dm.org/h5bp/html5-boilerplate#info=devDependencies)",
+  "description": "shopsnmarkets_messages",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "socket.io": "^1.4.6"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "test_app"
+    "test": "test_app.js"
   },
   "repository": {
     "type": "git",
