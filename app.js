@@ -1,5 +1,12 @@
+#!/usr/bin/env node
+var open = require('amqplib').connect('amqp://localhost');
 var io = require('socket.io')(8080);
+
+var redis = require("redis");
+var subscriber = redis.createClient();
+
 var usersName = {};
+var queue = 'message';
 
 var chat = io.of('/chat')
     .on('connection', function (socket) {
@@ -15,14 +22,24 @@ var chat = io.of('/chat')
         });
 
         socket.on('message', function (data) {
-            if (usersName[data.username] == undefined)
-                return false;
-
-            try {
-                usersName[data.username].emit('message', data);
-            } catch (e) {
-                console.log(e);
+            if (usersName[data.to] != undefined) {
+                try {
+                    usersName[data.to].emit('message', data);
+                } catch (e) {
+                    console.log(e);
+                }
             }
+
+            /** Publisher send message from rabbitmq */
+            open.then(function(conn) {
+                var ok = conn.createChannel();
+                ok = ok.then(function(ch) {
+                    ch.assertQueue(queue);
+                    ch.sendToQueue(queue, new Buffer(JSON.stringify(data)));
+                });
+
+                return ok;
+            }).then(null, console.warn);
         });
 
         /** when the user disconnects.. perform this */
@@ -32,14 +49,27 @@ var chat = io.of('/chat')
         });
     });
 
-var news = io.of('/news')
+subscriber.subscribe("not-read");
+var notRead = io.of('/notRead')
     .on('connection', function (socket) {
-        socket.on('message', function (data) {
-            if (usersName[data.username] == undefined)
+        /** when the client emits 'addUser', this listens and executes */
+        socket.on('addUser', function (data) {
+            if (data.username == undefined)
+                return false;
+
+            console.log('connect: '+data.username);
+
+            socket.username = data.username;
+            usersName[data.username] = socket;
+        });
+
+        subscriber.on("message", function(channel, data) {
+            data = JSON.parse(data);
+            if (usersName[data.to] == undefined)
                 return false;
 
             try {
-                usersName[data.username].emit('message', data);
+                usersName[data.to].emit('not-read', data);
             } catch (e) {
                 console.log(e);
             }
