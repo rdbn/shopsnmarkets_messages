@@ -1,6 +1,13 @@
 #!/usr/bin/env node
+var app = require('http').createServer(function(request, response) {
+    console.log(request);
+    console.log(response);
+});
+
 var open = require('amqplib').connect('amqp://localhost');
-var io = require('socket.io')(8080);
+var io = require('socket.io')(app);
+
+app.listen(8080, 'localhost');
 
 var redis = require("redis");
 var subscriber = redis.createClient();
