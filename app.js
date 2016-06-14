@@ -133,7 +133,6 @@ var checkRead = io.of('/checkRead')
             if (usersCheckRead[data.to] != undefined) {
                 try {
                     usersCheckRead[data.to].emit('check-read', data);
-                    usersCheckRead[data.from].emit('check-read', data);
                 } catch (e) {
                     console.log(e);
                 }
